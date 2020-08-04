@@ -19,7 +19,7 @@
 #java client $1 $2 $3 "$4"
 
 #For Python implementation
-python virtualrouter.py $1 $2 $3 "$4"
+python3 virtualrouter.py $1 $2 $3 "$4"
 
 #For Ruby implementation
 #ruby client.rb $1 $2 $3 "$4"
