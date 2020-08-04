@@ -138,7 +138,7 @@ def do_fwd():
         propagate(msg)
 
 def main():
-    global NETEM_HOST, EGRESS_PORT, r_id
+    global NETEM_HOST, EGRESS_PORT, r_id, topo_file, rt_file
     args = sys.argv
     EGRESS_PORT = int(args[2])
     NETEM_HOST = args[1]
