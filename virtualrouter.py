@@ -87,9 +87,11 @@ def handle_lsa(msg):
     global link_pairs, link_costs, graph, topo_file
     if (msg.get_router_link_id() not in link_pairs): # added a new link
         link_pairs[msg.get_router_link_id()] = [msg.get_router_id()]
-        link_costs[msg.get_router_link_id()] = msg.get_router_link_cost()
     else: # updated the link with a new router
         link_pairs[msg.get_router_link_id()].append(msg.get_router_id())
+
+    if (msg.get_router_link_id() not in link_costs):
+        link_costs[msg.get_router_link_id()] = msg.get_router_link_cost()
     # If link has both connections
     if (len(link_pairs[msg.get_router_link_id()]) == 2):
         graph.add_edge(
