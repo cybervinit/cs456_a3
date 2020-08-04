@@ -50,7 +50,6 @@ def get_send_queue():
 # add_link_info: updates link_pairs with the newly received info
 def add_link_info(msg):
     global link_pairs, graph
-    print(f'Link Add Check: {msg.get_router_id()}, {msg.get_router_link_id()}')
     if msg.get_router_link_id() not in link_pairs: # added a new link
         link_pairs[msg.get_router_link_id()] = [msg.get_router_id()]
     else:
@@ -63,8 +62,6 @@ def add_link_info(msg):
                 link_pairs[msg.get_router_link_id()][1],
                 weight=msg.get_router_link_cost()
         )
-    print(f'edges:')
-    print(graph.edges(data=True))
 
 # is_duplicate: True iff msg router_id, router_link_id and router_link_cost
 # have already been seen by me (router) before
@@ -72,7 +69,7 @@ def is_duplicate(msg):
     # added a new link
     if (msg.get_router_link_id() in link_pairs
             and msg.get_router_id() in link_pairs[msg.get_router_link_id()]):
-            return True
+        return True
     return False
 
 # propagate: sends msg to all other links
@@ -89,20 +86,14 @@ def propagate(msg):
 def do_fwd():
     global graph # TODO: remove graph
     send_queue = get_send_queue()
-    print(link_pairs)
-    print('communicating...')
     for i in range(0, len(send_queue)):
         send(send_queue.popleft())
-    while True: # TODO: update condition
+    while True:
         msg = recv_msg()
         if is_duplicate(msg): # if you got the message already then continue
             continue
         add_link_info(msg)
         propagate(msg)
-        if (graph.has_node(1) and graph.has_node(3)):
-            print('Dijkstra Info: ')
-            print(nx.dijkstra_path(graph, 1, 3))
-            print(nx.dijkstra_path_length(graph, 1, 3))
 
 def main():
     global NETEM_HOST, EGRESS_PORT, r_id
