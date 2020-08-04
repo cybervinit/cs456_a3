@@ -40,6 +40,10 @@ class message:
     def update_sender_link_id(self, new_sender_link_id):
         self.load_arr[1] = new_sender_link_id
 
+    # condition: assumes self is a type 3 message
+    def get_el(self, ind):
+        return self.load_arr[ind]
+
     @staticmethod
     def get_message_3(info_arr):
         array = bytearray()
